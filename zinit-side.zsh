@@ -385,7 +385,8 @@
 .zinit-countdown() {
     (( !${+ICE[countdown]} )) && return 0
 
-    emulate -L zsh -o extendedglob
+    emulate -L zsh
+    setopt extendedglob
     trap "+zinit-message \"{ehi}ABORTING, the ice {ice}$ice{ehi} not ran{rst}\"; return 1" INT
     local count=5 tpe="$1" ice
     ice="${ICE[$tpe]}"

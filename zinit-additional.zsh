@@ -19,7 +19,8 @@
     local ___data="$(<$1)"
 
     () {
-        builtin emulate -LR zsh -o extendedglob -o interactivecomments
+        builtin emulate -LR zsh
+        setopt extendedglob interactivecomments
         local ___subst ___tabspc=$'\t'
         for ___subst ( "${___substs[@]}" ) {
             ___ab=( "${(@)${(@)${(@s:->:)___subst}##[[:space:]]##}%%[[:space:]]##}" )

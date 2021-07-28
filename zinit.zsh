@@ -1155,7 +1155,8 @@ builtin setopt noaliases
     ZINIT_EXTS[seqno]=$(( ${ZINIT_EXTS[seqno]:-0} + 1 ))
     ZINIT_EXTS[$key${${(M)type#hook:}:+ ${ZINIT_EXTS[seqno]}}]="${ZINIT_EXTS[seqno]} z-annex-data: ${(q)name} ${(q)type} ${(q)handler} ${(q)helphandler} ${(q)icemods}"
     () {
-        emulate -LR zsh -o extendedglob
+        emulate -LR zsh
+        setopt extendedglob
         integer index="${type##[%a-zA-Z:_!-]##}"
         ZINIT_EXTS[ice-mods]="${ZINIT_EXTS[ice-mods]}${icemods:+|}${(j:|:)${(@)${(@s:|:)icemods}/(#b)(#s)(?)/$index-$match[1]}}"
     }
@@ -1893,7 +1894,8 @@ builtin setopt noaliases
 # ]]]
 # FUNCTION: .zinit-formatter-pid. [[[
 .zinit-formatter-pid() {
-    builtin emulate -L zsh -o extendedglob
+    builtin emulate -L zsh
+    setopt extendedglob
 
     # Zapamiętaj krańcowe białe znaki.
     local pbz=${(M)1##(#s)[[:space:]]##}
@@ -1936,7 +1938,8 @@ builtin setopt noaliases
 # ]]]
 # FUNCTION: .zinit-formatter-url. [[[
 .zinit-formatter-url() {
-    builtin emulate -LR zsh -o extendedglob
+    builtin emulate -LR zsh
+    setopt extendedglob
     #              1:proto        3:domain/5:start      6:end-of-it         7:no-dot-domain        9:file-path
     if [[ $1 = (#b)([^:]#)(://|::)((([[:alnum:]._+-]##).([[:alnum:]_+-]##))|([[:alnum:].+_-]##))(|/(*)) ]] {
         # The advanced coloring if recognized the format…
@@ -2000,7 +2003,8 @@ builtin setopt noaliases
 # ]]]
 # FUNCTION: +zinit-message. [[[
 +zinit-message() {
-    builtin emulate -LR zsh -o extendedglob
+    builtin emulate -LR zsh
+    setopt extendedglob
     local opt msg
     [[ $1 = -* ]] && { local opt=$1; shift; }
 
@@ -2032,7 +2036,8 @@ $match[7]}:-${ZINIT[__last-formatter-code]}}}:+}}}//←→}
 # ]]]
 # FUNCTION: +zinit-prehelp-usage-message. [[[
 +zinit-prehelp-usage-message() {
-    builtin emulate -LR zsh -o extendedglob
+    builtin emulate -LR zsh
+    setopt extendedglob
     local cmd=$1 allowed=$2 sep="$ZINIT[col-msg2], $ZINIT[col-ehi]" \
         sep2="$ZINIT[col-msg2], $ZINIT[col-opt]" bcol
 
@@ -2049,7 +2054,7 @@ $match[7]}:-${ZINIT[__last-formatter-code]}}}:+}}}//←→}
                 msg=${${(MS)msg##$cmd:\[[^]]##}:-${(MS)msg##\*:\[[^]]##}}
                 msg=${msg#($cmd|\*):\[}
             }
-            local pre_msg=`+zinit-message -n {opt}${(r:14:)${txt#opt_}}`
+            local pre_msg="`+zinit-message -n {opt}${(r:14:)${txt#opt_}}`"
             +zinit-message ${(r:35:: :)pre_msg}{rst}{ehi}→{rst}"  $msg"
         }
     } elif [[ -n $allowed ]] {
@@ -2078,7 +2083,8 @@ $match[7]}:-${ZINIT[__last-formatter-code]}}}:+}}}//←→}
 # ]]]
 # FUNCTION: +zinit-parse-opts. [[[
 .zinit-parse-opts() {
-    builtin emulate -LR zsh -o extendedglob
+    builtin emulate -LR zsh
+    setopt extendedglob
     reply=( "${(@)${@[2,-1]//([  $'\t']##|(#s))(#b)(${(~j.|.)${(@s.|.)___opt_map[$1]}})(#B)([  $'\t']##|(#e))/${OPTS[${___opt_map[${match[1]}]%%:*}]::=1}ß←↓→}:#1ß←↓→}" )
 }
 # ]]]
@@ -2146,7 +2152,8 @@ $match[7]}:-${ZINIT[__last-formatter-code]}}}:+}}}//←→}
 # ]]]
 # FUNCTION: .zinit-setup-params. [[[
 .zinit-setup-params() {
-    emulate -LR zsh -o extendedglob
+    emulate -LR zsh
+    setopt extendedglob
     reply=( ${(@)${(@s.;.)ICE[param]}/(#m)*/${${MATCH%%(-\>|→|=\>)*}//((#s)[[:space:]]##|[[:space:]]##(#e))}${${(M)MATCH#*(-\>|→|=\>)}:+\=${${MATCH#*(-\>|→|=\>)}//((#s)[[:space:]]##|[[:space:]]##(#e))}}} )
     (( ${#reply} )) && return 0 || return 1
 }
@@ -2703,7 +2710,8 @@ env-whitelist|bindkeys|module|add-fpath|fpath|run${reply:+|${(~j:|:)"${reply[@]#
 
         if (( ___error )) {
             () {
-                emulate -LR zsh -o extendedglob
+                emulate -LR zsh
+                setopt extendedglob
                 +zinit-message -n "{u-warn}Error{b-warn}:{rst} No plugin or snippet ID given"
                 if [[ -n $___last_ice ]] {
                     +zinit-message -n " (the last recognized ice was: {ice}"\

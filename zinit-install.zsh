@@ -870,7 +870,8 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || { builtin print -P "${ZINIT
         +zinit-message -n "{note}Note:{rst} Compiling{ehi}:{rst} {b}{file}$fname{rst}{…}"
         if [[ -z ${ICE[(i)(\!|)(sh|bash|ksh|csh)]} ]] {
             () {
-                builtin emulate -LR zsh -o extendedglob
+                builtin emulate -LR zsh
+                setopt extendedglob
                 if { ! zcompile -U "$first" } {
                     +zinit-message "{msg2}Warning:{rst} Compilation failed. Don't worry, the plugin will work also without compilation."
                     +zinit-message "{msg2}Warning:{rst} Consider submitting an error report to Zinit or to the plugin's author."
@@ -897,7 +898,8 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || { builtin print -P "${ZINIT
             integer retval
             for first in $list; do
                 () {
-                    builtin emulate -LR zsh -o extendedglob
+                    builtin emulate -LR zsh
+                    setopt extendedglob
                     zcompile -U "$first"; retval+=$?
                 }
             done
@@ -1051,7 +1053,8 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || { builtin print -P "${ZINIT
                             ${+ICE[nocompile]} -eq 0
                         ]] {
                             () {
-                                builtin emulate -LR zsh -o extendedglob
+                                builtin emulate -LR zsh
+                                setopt extendedglob
                                 zcompile -U "${list[1]}" &>/dev/null || \
                                     +zinit-message "{u-warn}Warning{b-warn}:{rst} couldn't compile {apo}\`{file}${list[1]}{apo}\`{rst}."
                             }
@@ -1138,7 +1141,8 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || { builtin print -P "${ZINIT
                         $file_path != */dev/null && ${+ICE[nocompile]} -eq 0
                 ]] {
                     () {
-                        builtin emulate -LR zsh -o extendedglob
+                        builtin emulate -LR zsh
+                        setopt extendedglob
                         if ! zcompile -U "$file_path" 2>/dev/null; then
                             builtin print -r "Couldn't compile \`${file_path:t}', it MIGHT be wrongly downloaded"
                             builtin print -r "(snippet URL points to a directory instead of a file?"
