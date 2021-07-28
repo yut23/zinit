@@ -865,7 +865,8 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || {
         +zinit-message -n "{note}Note:{rst} Compiling{ehi}:{rst} {b}{file}$fname{rst}{…}"
         if [[ -z ${ICE[(i)(\!|)(sh|bash|ksh|csh)]} ]] {
             () {
-                builtin emulate -LR zsh -o extendedglob ${=${options[xtrace]:#off}:+-o xtrace}
+                builtin emulate -LR zsh
+                setopt extendedglob ${=${options[xtrace]:#off}:+xtrace}
                 if { ! zcompile -U "$first" } {
                     +zinit-message "{msg2}Warning:{rst} Compilation failed. Don't worry, the plugin will work also without compilation."
                     +zinit-message "{msg2}Warning:{rst} Consider submitting an error report to Zinit or to the plugin's author."
@@ -892,7 +893,8 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || {
             integer retval
             for first in $list; do
                 () {
-                    builtin emulate -LR zsh -o extendedglob ${=${options[xtrace]:#off}:+-o xtrace}
+                    builtin emulate -LR zsh
+                    setopt extendedglob ${=${options[xtrace]:#off}:+xtrace}
                     zcompile -U "$first"; retval+=$?
                 }
             done
@@ -1053,7 +1055,8 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || {
                             ${+ICE[nocompile]} -eq 0
                         ]] {
                             () {
-                                builtin emulate -LR zsh -o extendedglob ${=${options[xtrace]:#off}:+-o xtrace}
+                                builtin emulate -LR zsh
+                                setopt extendedglob ${=${options[xtrace]:#off}:+xtrace}
                                 zcompile -U "${list[1]}" &>/dev/null || \
                                     +zinit-message "{u-warn}Warning{b-warn}:{rst} couldn't compile {apo}\`{file}${list[1]}{apo}\`{rst}."
                             }
@@ -1145,7 +1148,8 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || {
                         $file_path != */dev/null && ${+ICE[nocompile]} -eq 0
                 ]] {
                     () {
-                        builtin emulate -LR zsh -o extendedglob ${=${options[xtrace]:#off}:+-o xtrace}
+                        builtin emulate -LR zsh
+                        setopt extendedglob ${=${options[xtrace]:#off}:+xtrace}
                         if ! zcompile -U "$file_path" 2>/dev/null; then
                             builtin print -r "Couldn't compile \`${file_path:t}', it MIGHT be wrongly downloaded"
                             builtin print -r "(snippet URL points to a directory instead of a file?"
@@ -2296,7 +2300,8 @@ ${${${(M)flags:#*\#*}:+$msg}:-$msg_}
         local dir="${5#%}" hook="$6" subtype="$7" ex="$8" || \
         local dir="${4#%}" hook="$5" subtype="$6" ex="$7"
 
-    emulate -L zsh -o extendedglob
+    emulate -L zsh
+    setopt extendedglob
 
     local configure=${ICE[configure]}
     @zinit-substitute configure

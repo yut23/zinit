@@ -867,7 +867,8 @@ ZINIT[EXTENDED_GLOB]=""
         if [[ "$sw_arr4" = "-M" && "$sw_arr6" != "-R" ]]; then
             if [[ -n "$sw_arr3" ]]; then
                 () {
-                    builtin emulate -LR zsh -o extendedglob ${=${options[xtrace]:#off}:+-o xtrace}
+                    builtin emulate -LR zsh
+                    setopt extendedglob ${=${options[xtrace]:#off}:+xtrace}
                     (( quiet )) || builtin print -r "Restoring bindkey ${${(q)sw_arr1}//(#m)\\[\^\?\]\[\)\(\'\"\}\{\`]/${MATCH#\\}} $sw_arr3 ${ZINIT[col-info]}in map ${ZINIT[col-rst]}$sw_arr5"
                 }
                 bindkey -M "$sw_arr5" "$sw_arr1" "$sw_arr3"
@@ -900,7 +901,8 @@ ZINIT[EXTENDED_GLOB]=""
         else
             if [[ -n "$sw_arr3" ]]; then
                 () {
-                    builtin emulate -LR zsh -o extendedglob ${=${options[xtrace]:#off}:+-o xtrace}
+                    builtin emulate -LR zsh
+                    setopt extendedglob ${=${options[xtrace]:#off}:+xtrace}
                     (( quiet )) || builtin print -r "Restoring bindkey ${${(q)sw_arr1}//(#m)\\[\^\?\]\[\)\(\'\"\}\{\`]/${MATCH#\\}} $sw_arr3"
                 }
                 bindkey "$sw_arr1" "$sw_arr3"

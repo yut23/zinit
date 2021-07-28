@@ -19,7 +19,8 @@
     local ___data="$(<$1)"
 
     () {
-        builtin emulate -LR zsh -o extendedglob -o interactivecomments ${=${options[xtrace]:#off}:+-o xtrace}
+        builtin emulate -LR zsh
+        setopt extendedglob interactivecomments ${=${options[xtrace]:#off}:+xtrace}
         local ___subst ___tabspc=$'\t'
         for ___subst ( "${___substs[@]}" ) {
             ___ab=( "${(@)${(@)${(@s:->:)___subst}##[[:space:]]##}%%[[:space:]]##}" )
