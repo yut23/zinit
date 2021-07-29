@@ -1717,8 +1717,10 @@ ZINIT[EXTENDED_GLOB]=""
     done
     ICE=()
 
-    typeset -ga INSTALLED_EXECS
-    { INSTALLED_EXECS=( "${(@f)$(<${TMPDIR:-${TMPDIR:-/tmp}}/zinit-execs.$$.lst)}" ) } 2>/dev/null
+    if [[ -e ${TMPDIR:-${TMPDIR:-/tmp}}/zinit-execs.$$.lst ]] {
+        typeset -ga INSTALLED_EXECS
+        { INSTALLED_EXECS=( "${(@f)$(<${TMPDIR:-${TMPDIR:-/tmp}}/zinit-execs.$$.lst)}" ) } 2>/dev/null
+    }
 
     if [[ -e ${TMPDIR:-${TMPDIR:-/tmp}}/zinit.skipped_comps.$$.lst || -e ${TMPDIR:-${TMPDIR:-/tmp}}/zinit.installed_comps.$$.lst ]] {
         typeset -ga INSTALLED_COMPS SKIPPED_COMPS

@@ -494,8 +494,10 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || {
         return "$retval"
     ) || return $?
 
-    typeset -ga INSTALLED_EXECS
-    { INSTALLED_EXECS=( "${(@f)$(<${TMPDIR:-/tmp}/zinit-execs.$$.lst)}" ) } 2>/dev/null
+    if [[ -e ${TMPDIR:-/tmp}/zinit-execs.$$.lst ]] {
+        typeset -ga INSTALLED_EXECS
+        { INSTALLED_EXECS=( "${(@f)$(<${TMPDIR:-/tmp}/zinit-execs.$$.lst)}" ) } 2>/dev/null
+    }
 
     # After additional executions like atclone'' - install completions (1 - plugins)
     local -A OPTS
@@ -1337,8 +1339,10 @@ builtin source "${ZINIT[BIN_DIR]}/zinit-side.zsh" || {
         }
     ) || return $?
 
-    typeset -ga INSTALLED_EXECS
-    { INSTALLED_EXECS=( "${(@f)$(<${TMPDIR:-/tmp}/zinit-execs.$$.lst)}" ) } 2>/dev/null
+    if [[ -e ${TMPDIR:-/tmp}/zinit-execs.$$.lst ]] {
+        typeset -ga INSTALLED_EXECS
+        { INSTALLED_EXECS=( "${(@f)$(<${TMPDIR:-/tmp}/zinit-execs.$$.lst)}" ) } 2>/dev/null
+    }
 
     # After additional executions like atclone'' - install completions (2 - snippets)
     local -A OPTS
